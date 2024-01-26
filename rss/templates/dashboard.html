@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/db.css">
+
+    <style>
+        .my-nav {
+            display: none;
+        }
+
+        .sidebar {
+            display: none;
+        }
+
+        .web-content {
+            display: none;
+        }
+
+        .mobile-content {
+            display: none;
+        }
+
+        @media (max-width: 991px) {
+            #content {
+                margin-left: 0;
+            }
+
+            .my-nav {
+                display: flex;
+            }
+
+            .input-group {
+                width: 90% !important;
+            }
+
+            .mobile-content {
+                display: block;
+            }
+        }
+
+        @media (min-width: 991px) {
+            .sidebar {
+                display: block;
+            }
+
+            .web-content {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light my-nav">
+    <a class="navbar-brand" href="/" style="font-family: monospace;"><b>MoodRSS</b></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">About us</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">How it works</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Why MoodRss?</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+    
+<div id="sidebar" class="sidebar">
+    <div style="border-bottom: 1px solid rgb(221, 218, 218);">
+        <a href="/" style="font-family: monospace; padding-top: 15px; padding-left: 20px;"><b>MoodRSS</b></a>
+    </div>
+
+    <div class="menu-items">
+        <a href="#">About us</a>
+        <a href="#">How it works</a>
+        <a href="#">Why MoodRss?</a>
+    </div>
+</div>
+
+<div id="content" class="web-content">
+    <div id="search-container" class="d-flex flex-column align-items-center justify-content-center">
+        <p class="search-text"><b>Search for Feeds</b></p>
+        <form class="input-group w-50" action="/dashboard/" method="post">
+            {% csrf_token %}
+            <input type="text" class="form-control btn-lg my-input" placeholder="Search for RSS Feeds..." name="url">
+            <div class="input-group-append">
+                <button class="btn my-btn" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row" style="min-height: 300px;">
+        <div class="col-md-6" style="padding-left: 40px; padding-top: 20px;">
+            {% if sentiment %}
+            <div class="search-content h-100 py-3 px-4">
+                <div class="d-flex flex-row">
+                    <p class="feed-title"><b>{{feed.title}}</b></p>
+                    <button class="btn btn-primary my-open-btn ml-auto d-flex justify-content-center align-items-center"><span>Open</span></button>
+                </div>
+                <p style="width: 70%;">{{feed.summary}}</p>
+                <p>{{author_name}} - {{author_email}}</p>
+                <p>{{feed.published}}</p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-md-6" style="padding-right: 40px; padding-top: 20px;">
+            {% if sentiment %}
+            <div class="d-flex flex-column align-items-center justify-content-center h-100 search-content py-3 px-5">
+                    {% if sentiment == 'Happy' %}
+                        <p class="sentiment" style="color:#008148"><b>{{ sentiment }}</b></p>
+                    {% elif sentiment == 'Sad' %}
+                        <p class="sentiment" style="color:#EF2917"><b>{{ sentiment }}</b></p>
+                    {% else %}
+                        <p class="sentiment" style="color:#46494C"><b>{{ sentiment }}</b></p>
+                    {% endif %}
+                    <p class="sentiment-text">{{secondary_text}}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mobile-content">
+    <div class="row">
+        <div id="search-container" class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12 d-flex flex-column align-items-center justify-content-center">
+            <p class="search-text"><b>Search for Feeds</b></p>
+            <form class="input-group w-100" action="/dashboard/" method="post">
+                {% csrf_token %}
+                <input type="text" class="form-control btn-lg my-input" placeholder="Search for RSS Feeds..." name="url">
+                <div class="input-group-append">
+                    <button class="btn my-btn" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row" style="min-height: 300px;">
+        <div class="col-md-6" style="padding-top: 20px;">
+            {% if sentiment %}
+            <div class="search-content h-100 py-3 px-4">
+                <div class="d-flex flex-row">
+                    <p class="feed-title"><b>{{feed.title}}</b></p>
+                    <button class="btn btn-primary my-open-btn ml-auto d-flex justify-content-center align-items-center"><span>Open</span></button>
+                </div>
+                <p style="width: 70%;">{{feed.summary}}</p>
+                <p>{{author_name}} - {{author_email}}</p>
+                <p>{{feed.published}}</p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-md-6" style="padding-top: 20px;">
+            {% if sentiment %}
+            <div class="d-flex flex-column align-items-center justify-content-center h-100 search-content py-3 px-5">
+                    {% if sentiment == 'Happy' %}
+                        <p class="sentiment" style="color:#008148"><b>{{ sentiment }}</b></p>
+                    {% elif sentiment == 'Sad' %}
+                        <p class="sentiment" style="color:#EF2917"><b>{{ sentiment }}</b></p>
+                    {% else %}
+                        <p class="sentiment" style="color:#46494C"><b>{{ sentiment }}</b></p>
+                    {% endif %}
+                    <p class="sentiment-text">{{secondary_text}}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

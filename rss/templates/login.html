@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block start %}
+
+<link rel="stylesheet" href="/static/css/signup.css">
+
+
+<div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+    <div class="mx-5 main-signup-form d-flex flex-column align-items-center justify-content-center">
+        <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: xx-large;"><b>Log in</b></p>
+        <button class="signup-google-btn btn btn-lg mt-2 d-flex align-items-center justify-content-center" style="width: 85%;">
+            <img class="" style="margin-right: 10px; height: 15px;" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo">
+            <span>Log in with Google</span>
+        </button>
+        <div class="text-container mt-4">
+            <div class="line"></div>
+            <p>or</p>
+            <div class="line"></div>
+        </div>
+    
+        <div class="input-container mt-2" style="width: 85%;">
+            <input type="email" class="form-control mb-3 signup-google-btn btn-lg" placeholder="E-mail">
+            <input type="password" class="form-control mb-3 signup-google-btn btn-lg" placeholder="Password">
+        </div>   
+        <button class="get-started-btn btn mt-2 d-flex align-items-center justify-content-center btn-lg" style="width: 85%;">
+            <span>Log in</span>
+        </button>  
+        <a href="#" style="text-decoration: none; color: #1E1E24;" class="mt-4 forgot-a">forgot password?</a>    
+    </div>
+</div>
+
+{% endblock %}
