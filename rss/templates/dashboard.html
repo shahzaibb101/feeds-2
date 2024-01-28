@@ -51,6 +51,14 @@
                 display: block;
             }
         }
+
+        .error-div {
+            border: 1px solid rgb(221, 218, 218);
+        }
+
+        .error-div:hover {
+            border: 1px solid #3068ff;
+        }
     </style>
 </head>
 <body>
@@ -99,7 +107,14 @@
         </form>
     </div>
 
-    <div class="row" style="min-height: 300px;">
+    <div class="row" style="min-height: 180px;">
+        {% if found == 'false' %}
+        <div class="col-md-12 px-5 py-5">
+            <div class="h-100 d-flex justify-content-center align-items-center error-div" style="border-radius: 10px;">
+                <h3 style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; color: #EF2917;">Feed not found!</h3>
+            </div>
+        </div>
+        {% else %}
         <div class="col-md-6" style="padding-left: 40px; padding-top: 20px;">
             {% if sentiment %}
             <div class="search-content h-100 py-3 px-4">
@@ -115,7 +130,7 @@
         </div>
         <div class="col-md-6" style="padding-right: 40px; padding-top: 20px;">
             {% if sentiment %}
-            <div class="d-flex flex-column align-items-center justify-content-center h-100 search-content py-3 px-5">
+            <div class="d-flex flex-column align-items-center justify-content-center h-100 search-content py-3 px-5" style="text-align: center;">
                     {% if sentiment == 'Happy' %}
                         <p class="sentiment" style="color:#008148"><b>{{ sentiment }}</b></p>
                     {% elif sentiment == 'Sad' %}
@@ -127,6 +142,7 @@
             </div>
             {% endif %}
         </div>
+        {% endif %}
     </div>
 </div>
 

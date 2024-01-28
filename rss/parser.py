@@ -7,8 +7,8 @@ def fetch_rss_feed(url):
         for entry in feed.entries:
             return(entry)
     else:
-        return("incorrect")
+        return None
 
 if __name__ == "__main__":
-    rss_feed_url = "https://podcastfeeds.nbcnews.com/RPWEjhKq"  # Replace with the actual RSS feed URL
+    rss_feed_url = "https://podcastfeeds.nbcnews.com/RPWEjhKq"
     print(fetch_rss_feed(rss_feed_url))
