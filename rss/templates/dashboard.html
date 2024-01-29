@@ -95,7 +95,7 @@
     </div>
 </div>
 
-<div id="content" class="web-content">
+<div id="content" class="web-content" style="margin-bottom: 80px;">
     <div id="search-container" class="d-flex flex-column align-items-center justify-content-center">
         <p class="search-text"><b>Search for Feeds</b></p>
         <form class="input-group w-50" action="/dashboard/" method="post">
@@ -120,10 +120,16 @@
             <div class="search-content h-100 py-3 px-4">
                 <div class="d-flex flex-row">
                     <p class="feed-title"><b>{{feed.title}}</b></p>
-                    <button class="btn btn-primary my-open-btn ml-auto d-flex justify-content-center align-items-center"><span>Open</span></button>
+                    {% if link %}
+                        <a class="btn btn-primary my-open-btn ml-auto d-flex justify-content-center align-items-center" href="{{ link }}" target="_blank"><span>Open</span></a>
+                    {% else %}
+                        <a class="btn btn-secondary my-open-btn ml-auto d-flex justify-content-center align-items-center disabled" href="#" role="button" aria-disabled="true"><span>Open</span></a>
+                    {% endif %}
                 </div>
-                <p style="width: 70%;">{{feed.summary}}</p>
-                <p>{{author_name}} - {{author_email}}</p>
+                <p style="width: 70%;">{{summary}}</p>
+                {% if author_name %}
+                    <p>{{author_name}} - {{author_email}}</p>
+                {% endif %}
                 <p>{{feed.published}}</p>
             </div>
             {% endif %}
@@ -146,7 +152,7 @@
     </div>
 </div>
 
-<div class="container-fluid mobile-content">
+<div class="container-fluid mobile-content" style="margin-bottom: 80px;">
     <div class="row">
         <div id="search-container" class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12 d-flex flex-column align-items-center justify-content-center">
             <p class="search-text"><b>Search for Feeds</b></p>
@@ -173,10 +179,16 @@
             <div class="search-content h-100 py-3 px-4">
                 <div class="d-flex flex-row">
                     <p class="feed-title"><b>{{feed.title}}</b></p>
-                    <button class="btn btn-primary my-open-btn ml-auto d-flex justify-content-center align-items-center"><span>Open</span></button>
+                    {% if link %}
+                        <a class="btn btn-primary my-open-btn ml-auto d-flex justify-content-center align-items-center" href="{{ link }}" target="_blank"><span>Open</span></a>
+                    {% else %}
+                        <a class="btn btn-secondary my-open-btn ml-auto d-flex justify-content-center align-items-center disabled" href="#" role="button" aria-disabled="true"><span>Open</span></a>
+                    {% endif %}
                 </div>
-                <p style="width: 70%;">{{feed.summary}}</p>
-                <p>{{author_name}} - {{author_email}}</p>
+                <p style="width: 70%;">{{summary}}</p>
+                {% if author_name %}
+                    <p>{{author_name}} - {{author_email}}</p>
+                {% endif %}
                 <p>{{feed.published}}</p>
             </div>
             {% endif %}

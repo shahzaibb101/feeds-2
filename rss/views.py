@@ -28,15 +28,25 @@ def dashboard(request):
                 secondary_text = 'The tone of this feed is more somber, sharing stories that may evoke feelings of empathy or reflection.'
             else:
                 secondary_text = 'This feed provides news and updates without a specific emotional tone, offering a balanced view of various topics.'
-            feeds_author = feed.authors
-            author_name = feeds_author[0].get('name')
-            author_email = feeds_author[0].get('email')
-            print(url)
-            print(summary)
-            print(sentiment)
-            # print(feed)
+            
+            if 'authors' in feed:
+                feeds_author = feed.authors
+                author_name = feeds_author[0].get('name')
+                author_email = feeds_author[0].get('email')
+            else:
+                author_name = None
+                author_email = None
 
-            return render(request, "dashboard.html", {'sentiment': sentiment, 'secondary_text': secondary_text, 'feed': feed, 'author_name': author_name, 'author_email': author_email, 'summary': summary, 'found': 'true'})
+            if 'links' in feed:
+                link = feed.links[0]['href']
+                print(link)
+            else:
+                link = None
+
+            # print(url)
+            # print(summary)
+            # print(sentiment)
+            return render(request, "dashboard.html", {'sentiment': sentiment, 'secondary_text': secondary_text, 'feed': feed, 'author_name': author_name, 'author_email': author_email, 'summary': summary, 'link': link, 'found': 'true'})
         else:
             return render(request, "dashboard.html", {'found': 'false'})
     else:
