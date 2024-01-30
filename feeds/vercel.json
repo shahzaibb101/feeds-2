@@ -1,5 +1,4 @@
 {
-    "version": 2,
     "builds": [{
         "src": "feeds/wsgi.py",
         "use": "@vercel/python",
@@ -10,5 +9,6 @@
             "src": "/(.*)",
             "dest": "feeds/wsgi.py"
         }
-    ]
+    ],
+    "rewrites": [{"source": "/(.*)", "destination": "/"}]
 }
