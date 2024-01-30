@@ -19,7 +19,7 @@ def dashboard(request):
         url = data['url']
         feed = fetch_rss_feed(url)
         
-        if feed:
+        if feed != "None":
             summary = feed.summary
             sentiment = get_prediction(summary)
             if sentiment == 'Happy':

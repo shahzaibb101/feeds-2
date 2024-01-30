@@ -11,7 +11,7 @@ def fetch_rss_feed(url):
             entry.summary = unescape(entry.summary)
             return(entry)
     else:
-        return None
+        return "None"
 
 if __name__ == "__main__":
     rss_feed_url = "https://podcastfeeds.nbcnews.com/RPWEjhKq"
