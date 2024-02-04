@@ -20,8 +20,5 @@ from rss.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name="home"),
-    path('sign-up/', signup, name="sign-up"),
-    path('login/', login, name="login"),
-    path('dashboard/', dashboard, name="dashboard"),
+    path('', dashboard, name="dashboard"),
 ]

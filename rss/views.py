@@ -4,29 +4,29 @@ from rss.prediction import *
 
 # Create your views here.
 
-def home(request):
-    return render(request, "home.html")
-
-def signup(request):
-    return render(request, "sign-up.html")
-
-def login(request):
-    return render(request, "login.html")
-
 def dashboard(request):
     if request.method == 'POST':
         data = request.POST
         url = data['url']
         feeds = fetch_rss_feed(url)
-        print(feeds)
 
         if data['sentiment']:
             selected = data['sentiment']
-            print(selected)
+            print("Selected:",selected)
         
         if feeds != "Not found":
             found = 'true'
-            feeds = feeds[:10]
+
+            unique_feeds = []
+            seen_titles = set()
+
+            for feed in feeds:
+                if feed.title not in seen_titles:
+                    unique_feeds.append(feed)
+                    seen_titles.add(feed.title)
+
+            feeds = unique_feeds[:10]
+                                        
             for feed in feeds:
                 feed['summary'] = feed.summary
                 feed['sentiment'] = get_prediction(feed['summary'])
@@ -48,18 +48,15 @@ def dashboard(request):
                 else:
                     feed['link'] = None
 
-            # Filter feeds based on user-selected sentiment
             selected_sentiment = data.get('sentiment', 'All')
             if selected_sentiment != 'All':
                 feeds = [feed for feed in feeds if feed['sentiment'] == selected_sentiment]
 
-            print(found)
-            return render(request, "dashboard.html", {'feeds': feeds, 'found': found, 'selected_sentiment': selected_sentiment, 'url': url})
+            return render(request, "dash.html", {'feeds': feeds, 'found': found, 'selected': selected, 'url': url})
 
         else:
             found = 'false'
-            print(found)
-            return render(request, "dashboard.html", {'feeds': None, 'found': found})
+            return render(request, "dash.html", {'feeds': None, 'found': found, 'selected': selected})
         
     else:
-        return render(request, "dashboard.html")
+        return render(request, "dash.html")

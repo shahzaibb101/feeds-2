@@ -40,6 +40,10 @@
                 padding-right: 30px; 
                 padding-top: 20px;
             }
+
+            .brand-name {
+                display: none !important;
+            }
         }
 
         @media (min-width: 991px) {
@@ -49,6 +53,7 @@
 
             .feeds-div-content {
                 padding-left: 40px; 
+                padding-right: 40px;
                 padding-top: 20px;
             }
 
@@ -85,7 +90,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light my-nav">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/" style="font-family: monospace;"><b>MoodRSS</b></a>
+        <a class="navbar-brand" href="/" style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; color: #3068ff; font-size: xx-large;"><b>MoodRSS</b></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -106,9 +111,6 @@
 </nav>
     
 <div id="sidebar" class="sidebar">
-    <div style="border-bottom: 1px solid rgb(221, 218, 218);">
-        <a href="/" style="font-family: monospace; padding-top: 15px; padding-left: 20px;"><b>MoodRSS</b></a>
-    </div>
 
     <div class="menu-items">
         <a href="#">About us</a>
@@ -118,9 +120,12 @@
 </div>
 
 <div id="content" style="margin-bottom: 80px;">
+    <div class="d-flex align-items-center justify-content-center my-3 brand-name" style="border-bottom: 1px solid rgb(221, 218, 218);">
+        <h1 style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; color: #3068ff;"><b>MoodRSS</b></h1>
+    </div>
     <div id="search-container" class="d-flex flex-column align-items-center justify-content-center">
         <p class="search-text"><b>Search for Feeds</b></p>
-        <form class="input-group w-50" action="/dashboard/" method="post">
+        <form class="input-group w-50" action="/" method="post">
             {% csrf_token %}
             {% if url %}
             <input type="text" class="form-control my-input" placeholder="Search for RSS Feeds..." name="url" value="{{url}}">
@@ -148,7 +153,7 @@
                     <button class="btn dropdown-toggle filter-button" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         Filter by Mood
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <ul class="dropdown-menu my-dropdown" aria-labelledby="dropdownMenuButton1">
                         <li><button class="dropdown-item" type="submit" name="sentiment" value="All">All</button></li>
                         <li><button class="dropdown-item" type="submit" name="sentiment" value="Happy">Happy</button></li>
                         <li><button class="dropdown-item" type="submit" name="sentiment" value="Sad">Sad</button></li>
@@ -159,37 +164,59 @@
             </div>
             {% endif %}
             {% for feed in feeds %}
-            <div class="col-md-6 feeds-div-content">
-                <div class="search-content h-100 py-3 px-4">
-                    <div class="d-flex flex-row align-items-center">
-                        <p class="feed-title" style="flex: 1;"><b>{{feed.title}}</b></p>
-                        {% if feed.link %}
-                            <a class="btn btn-primary my-open-btn ml-auto" href="{{ feed.link }}" target="_blank"><span>Open</span></a>
-                        {% else %}
-                            <a class="btn btn-secondary my-open-btn disabled" href="#" role="button" aria-disabled="true"><span>Open</span></a>
+
+                {% if selected == 'All' %}
+                <div class="col-md-12 feeds-div-content">
+                    <div class="search-content h-100 py-3 px-4">
+                        <div class="d-flex flex-row">
+                            <p class="feed-title" style="flex: 1"><b>{{feed.title}}</b></p>
+                            {% if feed.link %}
+                                <a class="btn btn-primary my-open-btn ml-auto" href="{{ feed.link }}" target="_blank"><span>Open</span></a>
+                            {% else %}
+                                <a class="btn btn-secondary my-open-btn disabled" href="#" role="button" aria-disabled="true"><span>Open</span></a>
+                            {% endif %}
+                        </div>                    
+                        <p style="width: 70%;">{{feed.summary}}</p>
+                        {% if feed.author_name %}
+                            <p>{{feed.author_name}} - {{feed.author_email}}</p>
                         {% endif %}
-                    </div>                    
-                    <p style="width: 70%;">{{feed.summary}}</p>
-                    {% if feed.author_name %}
-                        <p>{{feed.author_name}} - {{feed.author_email}}</p>
-                    {% endif %}
-                    <p>{{feed.published}}</p>
+                        <p>{{feed.published}}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6 feeds-div-sentiment">
-                {% if feed.sentiment %}
-                <div class="d-flex flex-column align-items-center justify-content-center h-100 search-content py-3 px-5" style="text-align: center;">
-                        {% if feed.sentiment == 'Happy' %}
-                            <p class="sentiment" style="color:#008148"><b>{{ feed.sentiment }}</b></p>
-                        {% elif feed.sentiment == 'Sad' %}
-                            <p class="sentiment" style="color:#EF2917"><b>{{ feed.sentiment }}</b></p>
-                        {% else %}
-                            <p class="sentiment" style="color:#46494C"><b>{{ feed.sentiment }}</b></p>
+                {% else %}
+                <div class="col-md-6 feeds-div-content" style="padding-right: 10px;">
+                    <div class="search-content h-100 py-3 px-4">
+                        <div class="d-flex flex-row">
+                            <p class="feed-title" style="flex: 1;"><b>{{feed.title}}</b></p>
+                            {% if feed.link %}
+                                <a class="btn btn-primary my-open-btn ml-auto" href="{{ feed.link }}" target="_blank"><span>Open</span></a>
+                            {% else %}
+                                <a class="btn btn-secondary my-open-btn disabled" href="#" role="button" aria-disabled="true"><span>Open</span></a>
+                            {% endif %}
+                        </div>                    
+                        <p style="width: 70%;">{{feed.summary}}</p>
+                        {% if feed.author_name %}
+                            <p>{{feed.author_name}} - {{feed.author_email}}</p>
                         {% endif %}
-                        <p class="sentiment-text">{{feed.secondary_text}}</p>
+                        <p>{{feed.published}}</p>
+                    </div>
+                </div>
+                <div class="col-md-6 feeds-div-sentiment" id="feeds-div-sentiment">
+                    {% if feed.sentiment %}
+                    <div class="d-flex flex-column align-items-center justify-content-center h-100 search-content py-3 px-5" style="text-align: center;">
+                            {% if feed.sentiment == 'Happy' %}
+                                <p class="sentiment" style="color:#008148"><b>{{ feed.sentiment }}</b></p>
+                            {% elif feed.sentiment == 'Sad' %}
+                                <p class="sentiment" style="color:#EF2917"><b>{{ feed.sentiment }}</b></p>
+                            {% else %}
+                                <p class="sentiment" style="color:#46494C"><b>{{ feed.sentiment }}</b></p>
+                            {% endif %}
+                            <p class="sentiment-text">{{feed.secondary_text}}</p>
+                    </div>
+                    {% endif %}
                 </div>
                 {% endif %}
-            </div>
+
                 {% if feed.sentiment %}
                 <div class="col-md-12 px-5" style="padding-top: 2rem; padding-bottom: 0.7rem;">
                     <div class="" style="border-top: 1px solid rgb(221, 218, 218);">

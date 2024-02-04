@@ -5,7 +5,6 @@ from html import unescape
 def fetch_rss_feed(url):
     print("Url:",url)
     feed = feedparser.parse(url)
-    print("Feed",feed)
     
     if feed.entries:
         for entry in feed.entries:
