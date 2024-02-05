@@ -52,7 +52,11 @@ def dashboard(request):
             if selected_sentiment != 'All':
                 feeds = [feed for feed in feeds if feed['sentiment'] == selected_sentiment]
 
-            return render(request, "dash.html", {'feeds': feeds, 'found': found, 'selected': selected, 'url': url})
+            if len(feeds) > 0:
+                return render(request, "dash.html", {'feeds': feeds, 'found': found, 'selected': selected, 'url': url, 'empty': 'no', 'feed': feeds[0]})
+            else:
+                return render(request, "dash.html", {'feeds': feeds, 'found': found, 'selected': selected, 'url': url, 'empty': 'yes'})
+
 
         else:
             found = 'false'
